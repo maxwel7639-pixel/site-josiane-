@@ -205,6 +205,7 @@ img { display: block; max-width: 100%; }
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: clamp(20px, 2.4vw, 32px);
+  align-items: stretch;            /* todos os cards da fileira com a mesma altura */
 }
 .card {
   background: #FFF;
@@ -213,11 +214,13 @@ img { display: block; max-width: 100%; }
   box-shadow: 0 20px 50px -30px rgba(201, 123, 135, 0.5);
   display: flex;
   flex-direction: column;
+  height: 100%;                    /* preenche toda a altura da fileira do grid */
 }
 .card--pink { background-color: #FE8FA6; }
-.card-photo { aspect-ratio: 4/3; }
+.card-photo { height: 280px; flex: 0 0 auto; }   /* altura fixa e igual em todos */
 .card-photo img { width: 100%; height: 100%; object-fit: cover; }
 .card-body {
+  flex: 1;                         /* painel rosa ocupa a sobra, sem espaço em branco */
   padding: 26px 24px 30px;
   background-color: #FE8FA6;
 }
