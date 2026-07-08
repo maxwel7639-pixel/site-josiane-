@@ -123,19 +123,43 @@ img { display: block; max-width: 100%; }
 }
 .hero-photo-frame img { width: 100%; height: 100%; object-fit: cover; }
 
-/* SELOS DE AUTORIDADE */
-.badges-wrap { background: #F4DDE0; }
-.badges {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: clamp(40px, 5vw, 64px) clamp(20px, 5vw, 64px);
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: clamp(20px, 3vw, 40px);
+/* SELOS DE AUTORIDADE — marquee arrastável */
+.badges-wrap { background: #F4DDE0; padding: clamp(28px, 4vw, 48px) 0; }
+.badges-viewport {
+  overflow: hidden;
+  padding: clamp(28px, 4vw, 44px) 0;
+  background-color: #F4ABAB;
+  border-top: 1px solid #CA6767;
+  border-bottom: 1px solid #CA6767;
+  cursor: grab;
+  touch-action: pan-y;            /* deixa o scroll vertical da página passar no touch */
+  -webkit-user-select: none;
+  user-select: none;
+}
+.badges-viewport.is-grabbing { cursor: grabbing; }
+.badges-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+/* animação automática (JS ajusta a duração conforme a largura) */
+.badges-track.is-animating { animation: badges-marquee 35s linear infinite; }
+.badges-track.is-paused { animation-play-state: paused; }
+@keyframes badges-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.badges-group {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+.badge {
+  flex: 0 0 auto;
+  min-width: 200px;
+  padding: 0 clamp(24px, 3.4vw, 52px);
   text-align: center;
   color: #A14453;
-  border: 1px solid #CA6767;
-  background-color: #F4ABAB;
 }
 .badge-num {
   font-family: 'Cormorant Garamond', serif;
@@ -366,3 +390,35 @@ img { display: block; max-width: 100%; }
   transition: transform 0.2s;
 }
 .whatsapp-float:hover { transform: scale(1.08); }
+
+/* ===== INTERATIVIDADE (reveal / tilt / parallax) ===== */
+
+/* Reveal on scroll — só entra em ação quando o JS marca .js no <html> */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.js .reveal.in-view {
+  opacity: 1;
+  transform: none;
+}
+
+/* Parallax leve do hero */
+.hero-photo-frame,
+.hero-photo-arch { will-change: transform; }
+
+/* Tilt 3D dos cards de serviço */
+.services-grid { perspective: 1000px; }
+.card {
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+}
+.card.is-tilting { transition: box-shadow 0.4s ease-out; } /* durante o movimento, sem lag no tilt */
+
+/* Acessibilidade: respeita quem pediu menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  .badges-track.is-animating { animation: none; }
+  .card { transition: none; }
+}
