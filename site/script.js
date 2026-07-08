@@ -265,4 +265,47 @@
       onScroll();
     }
   }
+
+  /* -------------------------------------------------------------
+     4) FAQ — acordeão (JS puro, sem biblioteca)
+     Abre/fecha ao clicar; mantém só um item aberto por vez.
+  ------------------------------------------------------------- */
+  (function initFaq() {
+    var buttons = document.querySelectorAll('.faq-q');
+    if (!buttons.length) return;
+
+    function close(btn) {
+      btn.setAttribute('aria-expanded', 'false');
+      btn.nextElementSibling.style.maxHeight = null;
+    }
+    function open(btn) {
+      btn.setAttribute('aria-expanded', 'true');
+      var panel = btn.nextElementSibling;
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+    }
+
+    Array.prototype.forEach.call(buttons, function (btn) {
+      btn.addEventListener('click', function () {
+        var isOpen = btn.getAttribute('aria-expanded') === 'true';
+        Array.prototype.forEach.call(buttons, function (other) {
+          if (other !== btn) close(other);
+        });
+        if (isOpen) close(btn); else open(btn);
+      });
+    });
+
+    // Reajusta a altura do item aberto quando o texto reflui no resize.
+    var t = null;
+    window.addEventListener('resize', function () {
+      clearTimeout(t);
+      t = setTimeout(function () {
+        Array.prototype.forEach.call(buttons, function (btn) {
+          if (btn.getAttribute('aria-expanded') === 'true') {
+            var panel = btn.nextElementSibling;
+            panel.style.maxHeight = panel.scrollHeight + 'px';
+          }
+        });
+      }, 150);
+    });
+  })();
 })();

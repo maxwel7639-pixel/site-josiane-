@@ -419,9 +419,161 @@ img { display: block; max-width: 100%; }
 }
 .card.is-tilting { transition: box-shadow 0.4s ease-out; } /* durante o movimento, sem lag no tilt */
 
+/* ===== BADGE DE NOTA DO GOOGLE ===== */
+.google-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 22px;
+  padding: 9px 16px;
+  background: #FFF;
+  border: 1px solid #E8B4BC;
+  border-radius: 100px;
+  box-shadow: 0 8px 24px -16px rgba(201, 123, 135, 0.7);
+  font-size: 13.5px;
+  color: #6B5B5D;
+  line-height: 1;
+}
+.google-badge-stars { display: inline-flex; color: #F5A623; }
+.google-badge-rating { font-weight: 500; color: #3A2E30; }
+.google-badge-sep { color: #E8B4BC; }
+.google-badge-text { letter-spacing: 0.2px; }
+
+/* ===== COMO FUNCIONA (3 passos) ===== */
+.steps-wrap { background: #FDF6F5; }
+.steps {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(56px, 7vw, 96px) clamp(20px, 5vw, 64px);
+}
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(24px, 3vw, 40px);
+}
+.step {
+  position: relative;
+  background: #FFF;
+  border: 1px solid #F4DDE0;
+  border-radius: 20px;
+  padding: clamp(28px, 3vw, 40px) clamp(24px, 2.6vw, 32px);
+  text-align: center;
+  box-shadow: 0 24px 50px -34px rgba(201, 123, 135, 0.55);
+}
+.step-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #F4DDE0;
+  color: #EE3F5A;
+  margin-bottom: 18px;
+}
+.step-num {
+  position: absolute;
+  top: clamp(22px, 2.6vw, 30px);
+  right: clamp(24px, 2.6vw, 32px);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1;
+  color: #F4DDE0;
+}
+.step-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600;
+  font-size: 23px;
+  margin: 0 0 10px;
+  color: #3A2E30;
+}
+.step-text {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: #6B5B5D;
+  margin: 0;
+  font-weight: 300;
+}
+
+/* ===== FAQ (acordeão) ===== */
+.faq-wrap { background: #F4DDE0; }
+.faq {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: clamp(56px, 7vw, 96px) clamp(20px, 5vw, 64px);
+}
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.faq-item {
+  background: #FFF;
+  border: 1px solid #EAC7CC;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.faq-q {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px clamp(18px, 3vw, 26px);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  font-family: 'Jost', sans-serif;
+  font-size: clamp(15px, 1.5vw, 17px);
+  font-weight: 400;
+  color: #3A2E30;
+  line-height: 1.4;
+}
+.faq-q:hover { color: #B0636F; }
+.faq-icon {
+  position: relative;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+}
+.faq-icon::before,
+.faq-icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 13px;
+  height: 2px;
+  background: #EE3F5A;
+  border-radius: 2px;
+  transform: translate(-50%, -50%);
+  transition: transform 0.3s ease;
+}
+.faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); }
+.faq-q[aria-expanded="true"] .faq-icon::after { transform: translate(-50%, -50%) rotate(0deg); }
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.faq-a-inner {
+  padding: 0 clamp(18px, 3vw, 26px) 22px;
+}
+.faq-a-inner p {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: #6B5B5D;
+  font-weight: 300;
+}
+
 /* Acessibilidade: respeita quem pediu menos movimento */
 @media (prefers-reduced-motion: reduce) {
   .js .reveal { opacity: 1; transform: none; transition: none; }
   .badges-track.is-animating { animation: none; }
   .card { transition: none; }
+  .faq-a { transition: none; }
+  .faq-icon::before, .faq-icon::after { transition: none; }
 }
